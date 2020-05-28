@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import ru.summary.mysummaryproject.di.FragmentScope
 import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import javax.inject.Named
 import javax.inject.Singleton
@@ -11,40 +12,47 @@ import javax.inject.Singleton
 @Module
 class NavigationModule {
 
-    private val ciceroneHome: Cicerone<Router> = Cicerone.create()
+
+    private val provideNavigationHome = ProvideCicerone()
 
     @Provides
     @Singleton
     @Named("Home")
-    fun provideRouterHome() = ciceroneHome.router
+    fun provideRouterHome(): Router = provideNavigationHome.router
 
     @Provides
     @Singleton
     @Named("Home")
-    fun provideViewHolderHome() = ciceroneHome.navigatorHolder
+    fun provideViewHolderHome(): NavigatorHolder = provideNavigationHome.navigatorHolder
 
-    private val ciceroneCalendar: Cicerone<Router> = Cicerone.create()
-
-    @Provides
-    @Singleton
-    @Named("Calendar")
-    fun provideRouterCalendar() = ciceroneCalendar.router
+    private val provideNavigationCalendar = ProvideCicerone()
 
     @Provides
     @Singleton
     @Named("Calendar")
-    fun provideViewHolderCalendar() = ciceroneCalendar.navigatorHolder
+    fun provideRouterCalendar(): Router = provideNavigationCalendar.router
 
-    private val ciceroneWeather: Cicerone<Router> = Cicerone.create()
+    @Provides
+    @Singleton
+    @Named("Calendar")
+    fun provideViewHolderCalendar(): NavigatorHolder = provideNavigationCalendar.navigatorHolder
+
+    private val provideNavigationWeather = ProvideCicerone()
 
     @Provides
     @Singleton
     @Named("Weather")
-    fun provideRouterWeather() = ciceroneWeather.router
+    fun provideRouterWeather(): Router = provideNavigationWeather.router
 
     @Provides
     @Singleton
     @Named("Weather")
-    fun provideViewHolderWeather() = ciceroneWeather.navigatorHolder
+    fun provideViewHolderWeather(): NavigatorHolder = provideNavigationWeather.navigatorHolder
 
+
+    class ProvideCicerone {
+        private val ciceroneHome: Cicerone<Router> = Cicerone.create()
+        val router: Router = ciceroneHome.router
+        val navigatorHolder: NavigatorHolder = ciceroneHome.navigatorHolder
+    }
 }
