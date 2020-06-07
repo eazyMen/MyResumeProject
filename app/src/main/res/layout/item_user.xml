@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <ru.rambler.libs.swipe_layout.SwipeLayout
         android:id="@+id/swipe"
         android:layout_marginTop="10dp"

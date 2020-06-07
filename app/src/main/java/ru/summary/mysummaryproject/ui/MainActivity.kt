@@ -2,6 +2,7 @@ package ru.summary.mysummaryproject.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,14 +15,17 @@ import ru.summary.mysummaryproject.ui.tabfragments.weather.WeatherTabFragment
 class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     override val layoutId: Int = R.layout.activity_main
 
+    lateinit var globalView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        globalView = container
         bottomNavigationBar.setOnNavigationItemSelectedListener(this)
         navigateTo(HomeTabFragment())
     }
 
     override fun initializeDagger() {}// TODO
+
 
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {

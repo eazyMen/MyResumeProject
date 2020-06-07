@@ -76,7 +76,7 @@ class ProductAdapter :
                 .placeholder(R.drawable.ic_home_false)
                 .into(imgUser)
 
-            containerView.setOnClickListener {
+            imgUser.setOnClickListener {
                 userClickListener?.invoke(imgUser, pos, item)
             }
 
@@ -116,7 +116,7 @@ class ProductAdapter :
     private var plusBasketClickListener: OnPlusGoodsClickListener? = null
     private var userClickListener: OnUserClickListener? = null
 
-    fun setOnProductClickListener(listener: OnUserClickListener?) {
+    fun setOnUserClickListener(listener: OnUserClickListener?) {
         userClickListener = listener
     }
 
