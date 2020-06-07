@@ -32,6 +32,7 @@ class HomeFragment : BaseFragment(), HomeView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setTitle(getString(R.string.title_home))
         initRecyclerUsers()
     }
@@ -47,7 +48,7 @@ class HomeFragment : BaseFragment(), HomeView {
     }
 
     override fun showError(message: String) {
-        toast("message")
+        toast(message)
     }
 
 }
