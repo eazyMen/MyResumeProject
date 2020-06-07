@@ -3,6 +3,7 @@ package ru.summary.mysummaryproject.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,14 +16,14 @@ import ru.summary.mysummaryproject.R
 import ru.summary.mysummaryproject.domain.models.UsersModel
 
 private typealias OnPlusGoodsClickListener = ((Int) -> Unit)
+private typealias OnUserClickListener = ((ImageView, Int, UsersModel) -> Unit)
+
 
 class ProductAdapter :
     ListAdapter<UsersModel, ProductAdapter.ViewHolder>(diffUtil) {
 
     private val VIEW_TYPE_LOADING = 1
     private val VIEW_TYPE_ITEM = 0
-
-    private var plusBasketClickListener: OnPlusGoodsClickListener? = null
 
     var swipePrev: SwipeLayout? = null
     private lateinit var swipedParent: ViewHolder
@@ -54,7 +55,7 @@ class ProductAdapter :
         when (holder) {
             is ItemViewHolder -> {
                 initSwipeListener(holder)
-                holder.bind(getItem(pos))
+                holder.bind(getItem(pos), pos, userClickListener)
             }
         }
     }
@@ -65,14 +66,20 @@ class ProductAdapter :
     class ItemViewHolder(override val containerView: View) :
         ViewHolder(containerView), LayoutContainer {
 
-        fun bind(item: UsersModel) {
-            val imgUser = containerView.imgUser
+        private val imgUser = containerView.imgUser
+
+        fun bind(item: UsersModel, pos: Int, userClickListener: OnUserClickListener?) {
 
             Glide.with(imgUser.context)
                 .load(item.avatarUrl)
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_home_false)
                 .into(imgUser)
+
+            containerView.setOnClickListener {
+                userClickListener?.invoke(imgUser, pos, item)
+            }
+
         }
     }
 
@@ -105,6 +112,13 @@ class ProductAdapter :
         })
     }
 
+
+    private var plusBasketClickListener: OnPlusGoodsClickListener? = null
+    private var userClickListener: OnUserClickListener? = null
+
+    fun setOnProductClickListener(listener: OnUserClickListener?) {
+        userClickListener = listener
+    }
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<UsersModel>() {
